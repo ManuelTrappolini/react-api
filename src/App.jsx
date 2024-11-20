@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 
+
 import './App.css'
 const emptyPost = {
   title: "",
@@ -32,7 +33,21 @@ function App() {
 
   useEffect(fetchData, [])
 
-
+  function fetchAddPost(e, id) {
+    const url = `http://127.0.0.1:3002/posts/${id}`;
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify()
+    })
+      .then(resp => {
+        console.log('Response:', resp);
+        return resp.json();
+      })
+      .then(data => {
+        setPostsData(data);
+      })
+  }
 
 
   function handleFormSubmit(e) {
@@ -120,7 +135,7 @@ function App() {
               />
 
 
-              <button className='btn btn-outline-secondary' type='submit'> Click ME</button>
+              <button className='btn btn-outline-secondary' type='submit' onClick={fetchAddPost}> Click ME</button>
             </div>
             <div className="form-check m-3">
               <input
@@ -142,7 +157,7 @@ function App() {
         <ul>
           {postsData.data ? postsData.data.map(post => (
             <div className="col" key={post.id} >
-              <div className="card">
+              <div className="card m-3">
                 <li className='m-2'>{post.title}:</li>
                 <li className='m-2'>{post.content}</li>
 
@@ -158,5 +173,3 @@ function App() {
 }
 
 export default App
-
-
