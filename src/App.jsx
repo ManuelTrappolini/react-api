@@ -70,16 +70,19 @@ function App() {
     setFormData(emptyPost)
 
 
-    const url = `http://127.0.0.1:3002/posts`;
+    const url = `http://127.0.0.1:3002/posts/`;
+
     fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify()
-    })
-      .then(resp => {
-        console.log('Response:', resp);
-        return resp.json(newItem);
+      body: JSON.stringify({
+        title: formData.title,
+        content: formData.content,
+        tags: formData.tags,
+        image: formData.image
       })
+    })
+      .then((res) => res.json())
       .then(data => {
         setPostsData(data)
 
