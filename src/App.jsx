@@ -33,8 +33,8 @@ function App() {
 
   useEffect(fetchData, [])
 
-  function fetchAddPost(e, id) {
-    const url = `http://127.0.0.1:3002/posts/${id}`;
+  /* function fetchAddPost() {
+    const url = `http://127.0.0.1:3002/posts`;
     fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -45,9 +45,10 @@ function App() {
         return resp.json();
       })
       .then(data => {
-        setPostsData(data);
+        setPostsData(data)
+
       })
-  }
+  } */
 
 
   function handleFormSubmit(e) {
@@ -67,6 +68,22 @@ function App() {
     ])
 
     setFormData(emptyPost)
+
+
+    const url = `http://127.0.0.1:3002/posts`;
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify()
+    })
+      .then(resp => {
+        console.log('Response:', resp);
+        return resp.json(newItem);
+      })
+      .then(data => {
+        setPostsData(data)
+
+      })
   }
 
   function handleFormField(e) {
@@ -124,6 +141,7 @@ function App() {
                 onChange={handleFormField}
               />
 
+
               <textarea type="text" className="form-control"
                 placeholder="Recipient's content"
                 aria-label="Recipient's content"
@@ -135,7 +153,7 @@ function App() {
               />
 
 
-              <button className='btn btn-outline-secondary' type='submit' onClick={fetchAddPost}> Click ME</button>
+              <button className='btn btn-outline-secondary' type='submit' onClick={handleFormSubmit}> Click ME</button>
             </div>
             <div className="form-check m-3">
               <input
@@ -159,7 +177,9 @@ function App() {
             <div className="col" key={post.id} >
               <div className="card m-3">
                 <li className='m-2'>{post.title}:</li>
+                <li className='m-2'><img src={`http://127.0.0.1:3002/${post.image}`} height={250} width={250} alt="" /></li>
                 <li className='m-2'>{post.content}</li>
+                <li className='m-2'>{post.tags}</li>
 
               </div>
             </div>

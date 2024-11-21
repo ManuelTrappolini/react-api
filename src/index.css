@@ -2,3 +2,24 @@ li {
     list-style: none;
 
 }
+
+
+
+.card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+
+}
+
+.col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.containter {
+    background-color: aqua;
+}
