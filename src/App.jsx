@@ -33,22 +33,6 @@ function App() {
 
   useEffect(fetchData, [])
 
-  /* function fetchAddPost() {
-    const url = `http://127.0.0.1:3002/posts`;
-    fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify()
-    })
-      .then(resp => {
-        console.log('Response:', resp);
-        return resp.json();
-      })
-      .then(data => {
-        setPostsData(data)
-
-      })
-  } */
 
 
   function handleFormSubmit(e) {
@@ -100,6 +84,30 @@ function App() {
 
     })
 
+  }
+
+  function destroyPost(id) {
+
+    const postIndexToTrash = Number(id.target.getAttribute('data-index'))
+    console.log(id.target);
+    console.log('form data:', postsData.data);
+
+
+
+    const newPosts = postsData.data.filter((post, index) => index != postIndexToTrash)
+    console.log(newPosts);
+
+    setPostsData(newPosts)
+
+    fetch(`http://127.0.0.1:3002/posts/${postIndexToTrash}`, {
+      method: 'DELETE',
+
+    })
+      .then((res) => res.json())
+      .then(data => {
+        setPostsData(data)
+
+      })
   }
 
   return (
@@ -176,13 +184,14 @@ function App() {
         </form>
 
         <ul>
-          {postsData.data ? postsData.data.map(post => (
+          {postsData.data ? postsData.data.map((post, index) => (
             <div className="col" key={post.id} >
               <div className="card m-3">
                 <li className='m-2'>{post.title}:</li>
                 <li className='m-2'><img src={`http://127.0.0.1:3002/${post.image}`} height={250} width={250} alt="" /></li>
                 <li className='m-2'>{post.content}</li>
                 <li className='m-2'>{post.tags}</li>
+                <button onClick={destroyPost} data-index={index} className='btn btn-danger mb-3 mt-3'>Delete Post</button>
 
               </div>
             </div>
