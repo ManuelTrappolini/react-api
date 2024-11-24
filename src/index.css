@@ -21,5 +21,9 @@ li {
 }
 
 .containter {
-    background-color: aqua;
+    background-color: rgb(221, 216, 216);
+}
+
+.tags {
+    font-style: italic;
 }

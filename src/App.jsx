@@ -25,7 +25,7 @@ function App() {
     fetch(url)
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        //console.log(data);
         setPostsData(data)
 
       })
@@ -86,26 +86,23 @@ function App() {
 
   }
 
-  function destroyPost(id) {
+  function handleDeleteClick(id) {
+    console.log('clicked', postsData);
 
     const postIndexToTrash = Number(id.target.getAttribute('data-index'))
-    console.log(id.target);
+    console.log(postIndexToTrash);
     console.log('form data:', postsData.data);
 
 
 
-    const newPosts = postsData.data.filter((post, index) => index != postIndexToTrash)
-    console.log(newPosts);
-
-    setPostsData(newPosts)
-
     fetch(`http://127.0.0.1:3002/posts/${postIndexToTrash}`, {
-      method: 'DELETE',
 
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
     })
-      .then((res) => res.json())
+      .then(res => res.json())
       .then(data => {
-        setPostsData(data)
+        console.log(data)
 
       })
   }
@@ -187,11 +184,11 @@ function App() {
           {postsData.data ? postsData.data.map((post, index) => (
             <div className="col" key={post.id} >
               <div className="card m-3">
-                <li className='m-2'>{post.title}:</li>
+                <li className='m-2'><h3>{post.title}:</h3></li>
                 <li className='m-2'><img src={`http://127.0.0.1:3002/${post.image}`} height={250} width={250} alt="" /></li>
                 <li className='m-2'>{post.content}</li>
-                <li className='m-2'>{post.tags}</li>
-                <button onClick={destroyPost} data-index={index} className='btn btn-danger mb-3 mt-3'>Delete Post</button>
+                <li className='m-2'><span className='tags'>{`${post.tags} ${" "} `}</span> </li>
+                <button onClick={handleDeleteClick} data-index={index} className='btn btn-danger mb-3 mt-3'>Delete Post</button>
 
               </div>
             </div>
